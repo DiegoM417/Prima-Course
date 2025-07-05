@@ -10,3 +10,17 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  email    String @unique
+  todos    Todo[] // Relación uno a muchos con el modelo Todo
+}
+
+model Todo {
+  id        Int     @id @default(autoincrement())
+  label     String
+  completed Boolean @default(false)
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id]) // Relación muchos a uno con el modelo User
+}
